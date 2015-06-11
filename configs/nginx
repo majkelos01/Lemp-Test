@@ -1,9 +1,11 @@
 
+
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 NGINXPATH=/etc/nginx
-PIDNAME=nginx 
-PIDFILE=nginx.pid 
+DAEMON=/usr/sbin/nginx
+PIDNAME=nginx
+PIDFILE=nginx.pid
 PIDSPATH=/var/run/
 DESCRIPTION="NGINEX WEB SERVER"
-RUNAS=RUNAS=root 
+RUNAS=root
 NGINX_CONF_FILE=/etc/nginx/nginx.conf # config file path
