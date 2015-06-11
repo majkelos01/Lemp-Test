@@ -95,7 +95,7 @@ function compile_nginx() {
 	sudo rm -f nginx-1.9.1.tar.gz
 	cd nginx-1.9.1
 
-	 ./configure --user=www-data --group=www-data --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-${NPS_VERSION}-beta
+	 sudo ./configure --user=www-data --group=www-data --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
 
 	sudo make
 	sudo make install
