@@ -101,9 +101,9 @@ function compile_nginx() {
 	sudo make install
 	
 	#Setup Default Sites
-	sudo mkdir /usr/local/nginx/conf/sites-available
-	sudo mkdir /usr/local/nginx/conf/sites-enabled
-	sudo mkdir /usr/local/nginx/conf/conf.d
+	sudo mkdir /etc/nginx/sites-available
+	sudo mkdir /etc/nginx/sites-enabled
+	sudo mkdir /etc/nginx/conf.d
 
 
 	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/usr/local/nginx/conf/sites-available/default"
