@@ -59,8 +59,8 @@ function install_new_tmux() {
   cd "$HOME/tmp"
   tar xvvf tmux-1.6.tar.gz
   cd tmux-1.6/
-  ./configure --prefix=/usr
-  make
+  sudo ./configure --prefix=/usr
+  sudo make
   sudo make install
 }
 
