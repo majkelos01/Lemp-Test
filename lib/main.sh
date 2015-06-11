@@ -106,7 +106,7 @@ function compile_nginx() {
 	sudo mkdir /etc/nginx/conf.d
 
 
-	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/usr/local/nginx/conf/sites-available/default"
+	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/etc/nginx/sites-available"
 	#Copy all the paths 
 	sudo rsync "$LEMPress/configs/nginx" "/etc/default/nginx"
 	
