@@ -95,15 +95,15 @@ function compile_nginx() {
 	sudo rm -f nginx-1.9.1.tar.gz
 	cd nginx-1.9.1
 
-	 sudo ./configure --user=www-data --group=www-data --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
+	sudo ./configure --user=$DEFAULT_USER --group=$DEFAULT_USER --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
 
 	sudo make
 	sudo make install
 	
 	#Setup Default Sites
-	sudo mkdir /etc/nginx/sites-available
-	sudo mkdir /etc/nginx/sites-enabled
-	sudo mkdir /etc/nginx/conf.d
+	sudo mkdir -p /etc/nginx/sites-available
+	sudo mkdir -p /etc/nginx/sites-enabled
+	sudo mkdir -p /etc/nginx/conf.d
 
 
 	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/etc/nginx/sites-available"
@@ -152,7 +152,7 @@ function configure_memcached() {
 function install_f2b() {
 	sudo apt-get update
 	sudo apt-get install fail2ban
-	sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+	sudo rsync /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 	
 	sudo sed -i "s/bantime  = 600/bantime = 3600/d" "/etc/fail2ban/jail.local"
 	sudo sed -i "s/findtime = 600/findtime = 3600/d" "/etc/fail2ban/jail.local"
