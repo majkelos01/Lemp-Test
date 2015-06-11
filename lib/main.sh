@@ -1,6 +1,6 @@
 # Don't change these
 TIME_NOW=`date +%s`
-LEMPress="$HOME/LEMPress"
+LEMPress="$HOME/Lemp-Test"
 DEFAULT_URL="new-wordpress-site.com"
 URL=""
 DB_NAME=""
