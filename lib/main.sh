@@ -225,8 +225,25 @@ EOF
 }
 
 function install_HHVM() {
-	https://codeable.io/community/speed-up-wp-admin-redis-hhvm/
 
+	if [ -f /etc/lsb-release ]; then
+	    . /etc/lsb-release
+	fi
+	
+	sudo apt-get install software-properties-common
+	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
+	sudo add-apt-repository 'deb http://dl.hhvm.com/ubuntu $DISTRIB_CODENAME main'
+	sudo apt-get update
+	sudo apt-get install hhvm
+	
+	sudo /usr/share/hhvm/install_fastcgi.sh
+	sudo /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
+	sudo update-rc.d hhvm defaults
+	
+	sudo sed -i '/hhvm.server.port = 9000/a hhvm.server.file_socket=/var/run/hhvm/hhvm.sock' /etc/hhvm/server.ini
+	sudo sed -i "s|hhvm.server.port = 9000|;hhvm.server.port = 9000|" "/etc/hhvm/server.ini"
+
+	sudo service hhvm restart
 }
 
 function install_varnish() {
