@@ -170,6 +170,23 @@ function install_php() {
   # sudo pecl install apc
 }
 
+function install_php_fpm() {
+	sudo apt-get install php5-fpm php5-cli php5-mysql -y
+	#ensure Cli and FPM have same php.ini configuration 
+	cd /etc/php5/cli
+	sudo mv php.ini php.ini.backup
+	sudo ln -s ../fpm/php.ini
+	
+	https://seravo.fi/2013/optimizing-web-server-performance-with-nginx-and-php
+	http://www.if-not-true-then-false.com/2011/nginx-and-php-fpm-configuration-and-optimizing-tips-and-tricks/
+	http://tweaked.io/guide/nginx/
+	
+}
+
+function install_HHVM() {
+	https://codeable.io/community/speed-up-wp-admin-redis-hhvm/
+
+}
 
 function install_varnish() {
   sudo apt-get -y install varnish
