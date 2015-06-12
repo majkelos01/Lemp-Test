@@ -24,6 +24,7 @@ configure_fastcgi
 configure_bash
 configure_varnish
 configure_memcached
+configure_nginx
 
 #install_firewall
 start_servers
