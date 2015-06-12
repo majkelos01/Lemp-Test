@@ -177,10 +177,23 @@ function install_php_fpm() {
 	sudo mv php.ini php.ini.backup
 	sudo ln -s ../fpm/php.ini
 	
-	https://seravo.fi/2013/optimizing-web-server-performance-with-nginx-and-php
-	http://www.if-not-true-then-false.com/2011/nginx-and-php-fpm-configuration-and-optimizing-tips-and-tricks/
-	http://tweaked.io/guide/nginx/
 	
+	sudo sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|" "/etc/php5/fpm/php.ini"
+	sudo sed -i "s|expose_php = On|expose_php = Off|" "/etc/php5/fpm/php.ini"
+	
+	sudo sed -i "s|post_max_size = 8M|post_max_size = 80M|" "/etc/php5/fpm/php.ini"
+	sudo sed -i "s|upload_max_filesize = 2M|upload_max_filesize = 50M|" "/etc/php5/fpm/php.ini"
+
+	sudo sed -i "s|;opcache.enable=0|opcache.enable=1|" "/etc/php5/fpm/php.ini"
+	
+	sudo sed -i "s|;emergency_restart_threshold = 0|emergency_restart_threshold = 10|" "/etc/php5/fpm/php-fpm.conf"
+	sudo sed -i "s|;emergency_restart_interval = 0|emergency_restart_interval = 1m|" "/etc/php5/fpm/php-fpm.conf"
+	sudo sed -i "s|;process_control_timeout = 0|process_control_timeout = 10|" "/etc/php5/fpm/php-fpm.conf"
+	#backup copy of the www config
+	cp /etc/php5/fpm/pool.d/www.conf{,.orig}
+	
+	sudo service php5-fpm restart
+
 }
 
 function install_HHVM() {
