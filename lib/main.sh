@@ -232,7 +232,21 @@ function install_HHVM() {
 	
 	sudo apt-get install software-properties-common
 	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-	sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu $DISTRIB_CODENAME main"
+	if [$DISTRIB_CODENAME == "precise"] || [$DISTRIB_CODENAME == "Precise"]; then
+		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu precise main"
+	fi 
+	if [$DISTRIB_CODENAME == "raring"] || [$DISTRIB_CODENAME == "Raring"]; then
+		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu raring main"
+	fi 
+	if [$DISTRIB_CODENAME == "saucy"] || [$DISTRIB_CODENAME == "Saucy"]; then
+		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu saucy main"
+	fi 
+	if [$DISTRIB_CODENAME == "trusty"] || [$DISTRIB_CODENAME == "Trusty"]; then
+		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu trusty main"
+	fi 
+	if [$DISTRIB_CODENAME == "wily"] || [$DISTRIB_CODENAME == "Wily"]; then
+		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu wily main"
+	fi 
 	sudo apt-get update
 	sudo apt-get install hhvm
 	
