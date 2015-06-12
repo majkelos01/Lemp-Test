@@ -7,18 +7,20 @@ source './lib/main.sh'
 upgrade
 
 install_tools
-install_new_tmux
+#install_new_tmux
 #install_nginx
 compile_nginx
-install_php
+#install_php
+install_php_fpm
 install_memcached
 install_varnish
+install_HHVM
 install_mysql
 install_locust
 install_f2b
 
 configure_fastcgi
-configure_tmux
+#configure_tmux
 configure_bash
 configure_varnish
 configure_memcached
