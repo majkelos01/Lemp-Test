@@ -1,3 +1,4 @@
+Scrips based on https://github.com/okor/LEMPress
 About LEMPress
 ==============
 
@@ -37,8 +38,8 @@ Install Git
 
 Download LEMPress
 
-        git clone git://github.com/okor/LEMPress.git
-        cd LEMPress
+        git clone https://github.com/majkelos01/Lemp-Test.git
+        cd Lemp-Test
 
 Setup the server
 
