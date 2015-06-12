@@ -230,25 +230,13 @@ function install_HHVM() {
 	    . /etc/lsb-release
 	fi
 	
-	sudo apt-get install software-properties-common
-	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-	if [$DISTRIB_CODENAME == "precise"] || [$DISTRIB_CODENAME == "Precise"]; then
-		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu precise main"
-	fi 
-	if [$DISTRIB_CODENAME == "raring"] || [$DISTRIB_CODENAME == "Raring"]; then
-		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu raring main"
-	fi 
-	if [$DISTRIB_CODENAME == "saucy"] || [$DISTRIB_CODENAME == "Saucy"]; then
-		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu saucy main"
-	fi 
-	if [$DISTRIB_CODENAME == "trusty"] || [$DISTRIB_CODENAME == "Trusty"]; then
-		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu trusty main"
-	fi 
-	if [$DISTRIB_CODENAME == "wily"] || [$DISTRIB_CODENAME == "Wily"]; then
-		sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu wily main"
-	fi 
+	sudo apt-get -y install software-properties-common
+	sudo add-apt-repository ppa:mapnik/boost
+	sudo wget http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add
+	sudo add-apt-repository 'http://dl.hhvm.com/ubuntu'
+	sudo sed -i -e 's|deb-src http://dl.hhvm.com/ubuntu|#deb-src http://dl.hhvm.com/ubuntu|g' /etc/apt/sources.list
 	sudo apt-get update
-	sudo apt-get install hhvm
+	sudo apt-get -y install hhvm
 	
 	sudo /usr/share/hhvm/install_fastcgi.sh
 	sudo /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
