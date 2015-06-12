@@ -194,8 +194,8 @@ function install_php_fpm() {
 	sudo cp /etc/php5/fpm/pool.d/www.conf{,.orig}
 	sudo tee /etc/php5/fpm/pool.d/www.conf <<EOF
 [php-serve]
-	;listen = 127.0.0.1:9001
-	listen = /var/run/php-fpm.socket
+	listen = 127.0.0.1:9001
+	;listen = /var/run/php-fpm.socket
 	user = deployer
 	group = deployer
 	request_slowlog_timeout = 5s
