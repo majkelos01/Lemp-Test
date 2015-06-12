@@ -364,11 +364,13 @@ function ip_dump() {
 
 
 function start_servers() {
-  sudo service php-fastcgi start
+  #sudo service php-fastcgi start
+  sudo php5-fpm start
   sudo service memcached start
   sudo service varnish restart
   sudo service nginx reload
   sudo service nginx start
+  sudo service hhvm start
 }
 
 
