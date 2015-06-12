@@ -45,7 +45,7 @@ function upgrade() {
 # Install
 
 function install_tools() {
-  sudo apt-get -y install openssh-server tmux rsync iptables wget curl build-essential python-software-properties unzip htop pwgen git-core
+  sudo apt-get -y install openssh-server tmux rsync iptables wget curl build-essential python-software-properties unzip htop pwgen git-core nano siege
 }
 
 function install_new_tmux() {
@@ -71,8 +71,8 @@ function install_nginx() {
 function compile_nginx() {
 
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev
-	sudo apt-get install linux-kernel-headers
-	sudo apt-get install build-essential
+	sudo apt-get -y install linux-kernel-headers
+	sudo apt-get -y install build-essential
 
 	sudo mkdir /opt/pagespeed
 	cd /opt/pagespeed
@@ -232,7 +232,7 @@ function install_HHVM() {
 	
 	sudo apt-get install software-properties-common
 	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-	sudo add-apt-repository 'deb http://dl.hhvm.com/ubuntu $DISTRIB_CODENAME main'
+	sudo add-apt-repository "deb http://dl.hhvm.com/ubuntu $DISTRIB_CODENAME main"
 	sudo apt-get update
 	sudo apt-get install hhvm
 	
