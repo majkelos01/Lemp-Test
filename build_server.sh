@@ -10,6 +10,7 @@ install_tools
 #install_new_tmux
 #install_nginx
 compile_nginx
+configure_nginx
 #install_php
 install_php_fpm
 install_memcached
@@ -24,7 +25,7 @@ configure_fastcgi
 configure_bash
 configure_varnish
 configure_memcached
-configure_nginx
+
 
 #install_firewall
 start_servers
