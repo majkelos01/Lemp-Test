@@ -190,8 +190,36 @@ function install_php_fpm() {
 	sudo sed -i "s|;emergency_restart_interval = 0|emergency_restart_interval = 1m|" "/etc/php5/fpm/php-fpm.conf"
 	sudo sed -i "s|;process_control_timeout = 0|process_control_timeout = 10|" "/etc/php5/fpm/php-fpm.conf"
 	#backup copy of the www config
-	cp /etc/php5/fpm/pool.d/www.conf{,.orig}
 	
+	sudo cp /etc/php5/fpm/pool.d/www.conf{,.orig}
+	sudo tee /etc/php5/fpm/pool.d/www.conf <<EOF
+[php-serve]
+	;listen = 127.0.0.1:9001
+	listen = /var/run/php-fpm.socket
+	user = deployer
+	group = deployer
+	request_slowlog_timeout = 5s
+	slowlog = /var/log/php5-fpm.log
+	listen.allowed_clients = 127.0.0.1
+	pm = dynamic
+	pm.max_children = 10
+	pm.start_servers = 3
+	pm.min_spare_servers = 2
+	pm.max_spare_servers = 4
+	pm.max_requests = 400
+	listen.backlog = -1
+	pm.status_path = /status
+	request_terminate_timeout = 120s
+	rlimit_files = 131072
+	rlimit_core = unlimited
+	catch_workers_output = yes
+	php_value[session.save_handler] = files
+	;php_value[session.save_path] = /var/lib/php/session
+	php_admin_value[error_log] = /var/log/php5-fpm-error.log
+	php_admin_flag[log_errors] = on
+EOF
+	
+
 	sudo service php5-fpm restart
 
 }
