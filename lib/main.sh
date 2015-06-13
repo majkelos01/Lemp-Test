@@ -94,7 +94,7 @@ function compile_nginx() {
 
 	sudo rm -f nginx-1.9.1.tar.gz
 	cd nginx-1.9.1
-
+	# Attention - Here the version is hard coded
 	sudo ./configure --user=$DEFAULT_USER --group=$DEFAULT_USER --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
 
 	sudo make
@@ -316,15 +316,21 @@ function create_passwords() {
   DB_PASSWORD="`pwgen -Bs 40 1`"
   DB_SALT="`pwgen -Bs 80 1`"
   DB_PREFIX="`pwgen -0 5 1`_"
-  
- echo '
-	##### Database Details for $URL #####
-	DB NAME: $DB_NAME
-	DB USER: $DB_USER
-	DB PASSWORD: $DB_PASSWORD
-	DB PREFIX: $DB_PREFIX
-	
-	' >> "$LEMPress/dbinfo.txt"
+  if [ -f /$LEMPress/dbinfo.txt ]; then
+   echo "File exist"
+   else 
+    sudo touch /$LEMPress/dbinfo.txt
+   fi
+	sudo tee -a /$LEMPress/dbinfo.txt <<EOF
+------------------------
+Database for $URL
+DB NAME = $DB_NAME
+DB USER = $DB_USER
+PASSWORD = $DB_PASSWORD
+WP_PREFIX = $DB_PREFIX
+------------------------
+
+EOF
 }
 
 function create_db() {
