@@ -232,7 +232,8 @@ function install_HHVM() {
 	
 	sudo apt-get -y install software-properties-common
 	sudo add-apt-repository ppa:mapnik/boost
-	sudo wget http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add
+	sudo wget --tries=3 http://dl.hhvm.com/conf/hhvm.gpg.key 
+	sudo apt-key add *.key
 	sudo add-apt-repository 'http://dl.hhvm.com/ubuntu'
 	sudo sed -i -e 's|deb-src http://dl.hhvm.com/ubuntu|#deb-src http://dl.hhvm.com/ubuntu|g' /etc/apt/sources.list
 	sudo apt-get update
@@ -377,6 +378,7 @@ function start_servers() {
   sudo service memcached start
   sudo service varnish restart
   sudo service nginx reload
+  sudo service nginx stop
   sudo service nginx start
   sudo service hhvm start
 }
