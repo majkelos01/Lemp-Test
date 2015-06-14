@@ -289,6 +289,7 @@ function configure_virtualhost() {
   sudo sed -i "s/URL/$URL/g" "/etc/nginx/sites-available/$URL"
   sudo ln -s "/etc/nginx/sites-available/$URL" "/etc/nginx/sites-enabled/$URL"
   sudo rm "/etc/nginx/sites-enabled/default"
+  sudo mkdir "/etc/nginx/cache/$URL"
 }
 
 function configure_nginx() {
