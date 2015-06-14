@@ -243,14 +243,22 @@ function install_HHVM() {
 	sudo /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
 	sudo update-rc.d hhvm defaults
 	
-	sudo sed -i '/hhvm.server.port = 9000/a hhvm.server.file_socket=/var/run/hhvm/hhvm.sock' /etc/hhvm/server.ini
-	sudo sed -i "s|hhvm.server.port = 9000|;hhvm.server.port = 9000|" "/etc/hhvm/server.ini"
+	#sudo sed -i '/hhvm.server.port = 9000/a hhvm.server.file_socket=/var/run/hhvm/hhvm.sock' /etc/hhvm/server.ini
+	sudo sed -i "s|hhvm.server.port = 9000|hhvm.server.port = 9003|" "/etc/hhvm/server.ini"
 
 	sudo service hhvm restart
 }
 
 function install_varnish() {
   sudo apt-get -y install varnish
+}
+
+function install_phpmyadmin(){
+	sudo apt-get -y install phpmyadmin
+	sudo ln -s /usr/share/phpmyadmin /home/deployer/sites/phpmyadmin
+	sudo php5enmod mcrypt
+	sudo service nginx reload && sudo service nginx restart && sudo service varnish restart \
+	 && sudo service php5-fpm restart && sudo service hhvm restart
 }
 
 function install_memcached() {
