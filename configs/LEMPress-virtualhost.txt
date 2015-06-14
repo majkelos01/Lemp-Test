@@ -24,6 +24,12 @@ server {
 	{
 			set $no_cache 1;
 	}
+	
+	# Bypass if WordPress admin cookie is set
+	if ($http_cookie ~* "wordpress_logged_in_")
+	{
+	    set $no_cache 1;
+	}
 	add_header X-Cache $upstream_cache_status;
 
 
