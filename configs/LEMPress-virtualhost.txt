@@ -29,9 +29,8 @@ server {
 
   location ~ \.php$ {
     error_page 502 = @fpm;
-    #fastcgi_pass unix:/var/run/php-fpm.socket;
-    #fastcgi_pass   127.0.0.1:9001;
-    fastcgi_pass unix:/var/run/hhvm/hhvm.sock;
+    fastcgi_pass   127.0.0.1:9003; #hhvm 
+    #fastcgi_pass unix:/var/run/hhvm/hhvm.sock;
     fastcgi_index  index.php;
     fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
     include fastcgi_params;
@@ -69,7 +68,7 @@ location @fpm {
   try_files $uri /index.php;
   include fastcgi_params;
   #fastcgi_pass unix:/var/run/php5-fpm.sock;
-  fastcgi_pass   127.0.0.1:9001;
+  fastcgi_pass   127.0.0.1:9001; #php fpm
   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
   fastcgi_index index.php;
 }
@@ -92,4 +91,40 @@ location @fpm {
      }
 
 
+}
+#####php my admin setup
+server {
+	    listen   5011;
+	 	access_log        off;
+		log_not_found     off;
+	 	error_log         off;
+    	root /home/deployer/sites/phpmyadmin;
+	    index index.php index.html index.htm;
+    	server_name php.nonitojestto.pl;
+ 
+     	location / {
+		try_files $uri $uri/ /index.php;
+   	    }
+   	    location /setup {
+        index index.html index.php;
+        }
+		
+    	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9001;
+        	fastcgi_index index.php;
+			fastcgi_connect_timeout 60;
+			fastcgi_send_timeout 180;
+			fastcgi_read_timeout 180;
+			fastcgi_buffer_size 256k;
+			fastcgi_buffers 4 256k;
+			fastcgi_busy_buffers_size 256k;
+			fastcgi_temp_file_write_size 256k;
+			fastcgi_intercept_errors on;
+        	fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    	}
+        location ~* \.(bak|back|bk)$ {
+		deny all;
+	}
 }
