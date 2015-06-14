@@ -22,7 +22,7 @@ install_f2b
 
 configure_fastcgi
 #configure_tmux
-configure_bash
+#configure_bash
 configure_varnish
 configure_memcached
 
