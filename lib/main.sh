@@ -259,6 +259,8 @@ function install_phpmyadmin(){
 	sudo php5enmod mcrypt
 	sudo service nginx reload && sudo service nginx restart && sudo service varnish restart \
 	 && sudo service php5-fpm restart && sudo service hhvm restart
+	sudo rsync "$LEMPress/configs/phpmyadmin" "/etc/nginx/sites-available/phpmyadmin"
+	sudo ln -s "/etc/nginx/sites-available/phpmyadmin" "/etc/nginx/sites-available/phpmyadmin"
 }
 
 function install_memcached() {
