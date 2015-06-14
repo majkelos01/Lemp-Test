@@ -1,6 +1,6 @@
 #microcache
 fastcgi_cache_path /etc/nginx/cache/URL levels=1:2 keys_zone=URL:10m inactive=10m max_size=500m;
-fastcgi_cache_key "$scheme://$host$request_method$request_uri";
+
 
 server {
   listen   127.0.0.1:8080;
