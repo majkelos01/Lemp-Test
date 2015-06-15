@@ -1,26 +1,24 @@
 Scrips based on https://github.com/okor/LEMPress
-About LEMPress
+About This LEPM Stack
 ==============
 
-A WordPress server environment shouldn't be slow or complicated to set up. LEMPress addresses those problems. LEMPress is a super easy to use setup script for creating an optimized WordPress server. LEMPress packs a full LEMP stack (Linux/Nginx/MySQL/PHP) with Varnish and Memcache for caching. With these tools, your site will be prepared for heavy traffic right from the start.
+I based this one on LEMPPress script availabe on GitHub. The other one was perfect, just was missing couple of features I found useful:
+* fastcgi caching (probably overkill together with varnish) 
+* HHVM  - php processor developed by facebook - this one have the fallback going to PHP-FPM in case something goes wrong
+* PHPMyadmin - it's configured to be accessed on the 5011 port
+* 
 
-
-Caching
-============
-
-LEMPress gets the server _ready_ to make Wordpress fast, but one step that hasn't been automated yet, is configuring a caching plugin. Because WordPress is dynamic, a content aware caching plugin is ideal. LEMPress has been tested with WP Total Cache, but other plugins may work. There are lots of articles about how to get WP Total Cache installed and configured. In the future, we'll add some supporting documentation for WP Total Cache.
-
+The script was tested on Ubuntu 12.04 and 14.04 
 
 Blog Comments
 =============
-Because LEMPress is taking advantage of caching via Varnish, it will break Wordpress comments. The solution is to use Disqus. It's free, it's good, use it.
+Because  of caching via Varnish, it will break Wordpress comments. The solution is to use Disqus. It's free, it's good, use it.
 
 
-Distros
+To Do
 =======
-
-LEMPress expects and has only been tested with Ubuntu 12.04 LTS x64
-
+* Cleanup the nginx configs 
+* Setup wordpress W3-Total Cache 
 
 How to Use:
 ========
