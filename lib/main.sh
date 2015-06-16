@@ -151,7 +151,9 @@ function install_f2b() {
 	
 }
 function install_mysql() {
-  sudo apt-get -y install mysql-server
+  #sudo apt-get -y install mysql-server
+  sudo apt-get -y install mysql-server-5.6 mysql-common-5.6 mysql-client-5.6
+  sudo apt-get -y install php5-mysql
 }
 
 function install_php() {
