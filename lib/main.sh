@@ -305,7 +305,7 @@ function configure_nginx() {
 	sudo rsync "$LEMPress/configs/nginx-locations.conf" "/etc/nginx/nginx-locations.conf"
 	sudo rsync "$LEMPress/configs/nginx-pagespeed.conf" "/etc/nginx/nginx-pagespeed.conf"
 	sudo rsync "$LEMPress/configs/nginx-seciurity.conf" "/etc/nginx/nginx-seciurity.conf"
-	sudo sed -i "s/URL/$URL/g" "/etc/nginx/nginx-pagespeed.conf"
+	#sudo sed -i "s/URL/$URL/g" "/etc/nginx/nginx-pagespeed.conf"
 	
 	#setup Init Script
 	sudo wget https://raw.github.com/JasonGiedymin/nginx-init-ubuntu/master/nginx -O /etc/init.d/nginx
