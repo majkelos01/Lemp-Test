@@ -106,16 +106,7 @@ function compile_nginx() {
 	sudo mkdir -p /etc/nginx/conf.d
 
 
-	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/etc/nginx/sites-available"
-	#Copy all the paths 
-	sudo rsync "$LEMPress/configs/nginx" "/etc/default/nginx"
-	
-	#Setup Init Script
-	sudo wget https://raw.github.com/JasonGiedymin/nginx-init-ubuntu/master/nginx -O /etc/init.d/nginx
-
-	sudo chmod +x /etc/init.d/nginx
-	sudo update-rc.d nginx defaults
-	
+	sudo rsync "$LEMPress/configs/LEMPress-virtualhost.txt" "/etc/nginx/sites-available"	
 }
 
 function install_firewall() {
@@ -245,6 +236,18 @@ function install_HHVM() {
 	
 	#sudo sed -i '/hhvm.server.port = 9000/a hhvm.server.file_socket=/var/run/hhvm/hhvm.sock' /etc/hhvm/server.ini
 	sudo sed -i "s|hhvm.server.port = 9000|hhvm.server.port = 9003|" "/etc/hhvm/server.ini"
+	
+	sudo sed -i "s|#RUN_AS_USER="www-data"|RUN_AS_USER="deployer"|" "/etc/default/hhvm"
+	sudo sed -i "s|#RUN_AS_GROUP="www-data"|RUN_AS_GROUP="deployer"|" "/etc/default/hhvm"
+
+	sudo tee /etc/hhvm/php.ini <<EOF
+;max_execution_time = 300
+;max_input_time = 60
+memory_limit = 128M
+post_max_size = 120M
+upload_max_filesize = 120M
+EOF
+		
 
 	sudo service hhvm restart
 }
@@ -257,10 +260,11 @@ function install_phpmyadmin(){
 	sudo apt-get -y install phpmyadmin
 	sudo ln -s /usr/share/phpmyadmin /home/deployer/sites/phpmyadmin
 	sudo php5enmod mcrypt
-	sudo service nginx reload && sudo service nginx restart && sudo service varnish restart \
-	 && sudo service php5-fpm restart && sudo service hhvm restart
 	sudo rsync "$LEMPress/configs/phpmyadmin" "/etc/nginx/sites-available/phpmyadmin"
 	sudo ln -s "/etc/nginx/sites-available/phpmyadmin" "/etc/nginx/sites-available/phpmyadmin"
+	
+	sudo service nginx reload && sudo service nginx restart && sudo service varnish restart \
+	 && sudo service php5-fpm restart && sudo service hhvm restart
 }
 
 function install_memcached() {
@@ -293,9 +297,22 @@ function configure_virtualhost() {
 }
 
 function configure_nginx() {
-  sudo rsync "$LEMPress/configs/nginx.conf" "/etc/nginx/nginx.conf"
-  sudo sed -i "s/www-data/$DEFAULT_USER/g" "/etc/nginx/nginx.conf"
-  sudo service nginx restart
+	sudo rsync "$LEMPress/configs/nginx.conf" "/etc/nginx/nginx.conf"
+	sudo sed -i "s/www-data/$DEFAULT_USER/g" "/etc/nginx/nginx.conf"
+  
+ 	#Copy all configs 
+	sudo rsync "$LEMPress/configs/nginx" "/etc/default/nginx"
+	sudo rsync "$LEMPress/configs/nginx-locations.conf" "/etc/nginx/nginx-locations.conf"
+	sudo rsync "$LEMPress/configs/nginx-pagespeed.conf" "/etc/nginx/nginx-pagespeed.conf"
+	sudo rsync "$LEMPress/configs/nginx-seciurity.conf" "/etc/nginx/nginx-seciurity.conf"
+	sudo sed -i "s/URL/$URL/g" "/etc/nginx/nginx-pagespeed.conf"
+	
+	#setup Init Script
+	sudo wget https://raw.github.com/JasonGiedymin/nginx-init-ubuntu/master/nginx -O /etc/init.d/nginx
+	sudo chmod +x /etc/init.d/nginx
+	sudo update-rc.d nginx defaults
+	
+	sudo service nginx restart
 }
 
 function configure_fastcgi() {

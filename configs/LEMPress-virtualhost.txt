@@ -51,28 +51,28 @@ server {
     fastcgi_split_path_info ^(.+\.php)(.*)$;
     fastcgi_hide_header X-Powered-By;
     
-  ###########################
+	###########################
 	######microcache###########
 	###########################
-	#matches keys_zone in fastcgi_cache_path
-	fastcgi_cache URL;
+		#matches keys_zone in fastcgi_cache_path
+		fastcgi_cache URL;
 
-	#don't serve pages defined earlier
-	fastcgi_cache_bypass $no_cache;
+		#don't serve pages defined earlier
+		fastcgi_cache_bypass $no_cache;
 
-	#don't cache pages defined earlier
-	fastcgi_no_cache $no_cache;
+		#don't cache pages defined earlier
+		fastcgi_no_cache $no_cache;
 
-	#defines the default cache time
-	fastcgi_cache_valid any 10m;
+		#defines the default cache time
+		fastcgi_cache_valid any 10m;
 
-	#unsure what the impacts of this variable is
-	fastcgi_max_temp_file_size 3M;
+		#unsure what the impacts of this variable is
+		fastcgi_max_temp_file_size 3M;
 
-	#Use stale cache items while updating in the background
-	fastcgi_cache_use_stale updating error timeout invalid_header http_500;
-	fastcgi_cache_lock on;
-	fastcgi_cache_lock_timeout 10s;
+		#Use stale cache items while updating in the background
+		fastcgi_cache_use_stale updating error timeout invalid_header http_500;
+		fastcgi_cache_lock on;
+		fastcgi_cache_lock_timeout 10s;
   }
   
 location @fpm {
@@ -84,22 +84,11 @@ location @fpm {
   fastcgi_index index.php;
 }
   
-  location = /favicon.ico {
-    log_not_found off;
-    access_log off;
-  }
-
-  location = /robots.txt {
-      allow all;
-      log_not_found off;
-      access_log off;
-  }
-  
-      location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml)$ {
-         access_log        off;
-         log_not_found     off;
-         expires           30d;
-     }
+#includes the cache plugins configuration and other custom re-write rules
+include /home/deployer/sites/URL/nginx.conf;
+include /etc/nginx/nginx-locations.conf
+include /etc/nginx/nginx-pagespeed.conf
+include /etc/nginx/nginx-seciurity.conf
 
 
 }

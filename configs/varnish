@@ -9,8 +9,8 @@ DAEMON_OPTS="-a :80 \
              -S /etc/varnish/secret \
              -p thread_pool_add_delay=2 \
              -p thread_pools=2 \
-             -p thread_pool_min=200 \
-             -p thread_pool_max=4000 \
+             -p thread_pool_min=100 \
+             -p thread_pool_max=5000 \
              -p cli_timeout=25 \
-             -p session_linger=50 \
+             -p session_linger=50/100/150 \
              -s malloc,512M"
