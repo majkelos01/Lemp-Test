@@ -86,9 +86,9 @@ location @fpm {
   
 #includes the cache plugins configuration and other custom re-write rules
 include /home/deployer/sites/URL/nginx.conf;
-include /etc/nginx/nginx-locations.conf
-include /etc/nginx/nginx-pagespeed.conf
-include /etc/nginx/nginx-seciurity.conf
+include /etc/nginx/nginx-locations.conf;
+include /etc/nginx/nginx-pagespeed.conf;
+include /etc/nginx/nginx-seciurity.conf;
 
 
 }
