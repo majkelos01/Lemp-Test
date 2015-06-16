@@ -88,6 +88,12 @@ location @fpm {
 include /home/deployer/sites/URL/nginx.conf;
 include /etc/nginx/nginx-locations.conf;
 include /etc/nginx/nginx-pagespeed.conf;
+
+# Varnish talks to us as maxcdn.com:8080 but when we rewrite
+# urls we should use maxcdn.com because that's what the
+# outside world uses for us.
+pagespeed MapRewriteDomain URL URL:8080;
+
 include /etc/nginx/nginx-seciurity.conf;
 
 
