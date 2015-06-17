@@ -244,17 +244,22 @@ function install_HHVM() {
 	#sudo sed -i '/hhvm.server.port = 9000/a hhvm.server.file_socket=/var/run/hhvm/hhvm.sock' /etc/hhvm/server.ini
 	sudo sed -i "s|hhvm.server.port = 9000|hhvm.server.port = 9003|" "/etc/hhvm/server.ini"
 	
-	sudo sed -i "s|#RUN_AS_USER="www-data"|RUN_AS_USER="deployer"|" "/etc/default/hhvm"
-	sudo sed -i "s|#RUN_AS_GROUP="www-data"|RUN_AS_GROUP="deployer"|" "/etc/default/hhvm"
+	#sudo sed -i 's|#RUN_AS_USER="www-data"|RUN_AS_USER="deployer"|' "/etc/default/hhvm"
+	#sudo sed -i 's|#RUN_AS_GROUP="www-data"|RUN_AS_GROUP="deployer"|' "/etc/default/hhvm"
 
-	sudo tee /etc/hhvm/php.ini <<EOF
-;max_execution_time = 300
-;max_input_time = 60
-memory_limit = 128M
-post_max_size = 120M
-upload_max_filesize = 120M
-EOF
-		
+	sudo tee -a "/etc/hhvm/php.ini" <<EOF
+	;max_execution_time = 300
+	;max_input_time = 60
+	memory_limit = 128M
+	post_max_size = 120M
+	upload_max_filesize = 120M
+	EOF
+
+	sudo tee -a "/etc/default/hhvm" <<EOF
+	RUN_AS_USER="deployer"
+	RUN_AS_GROUP="deployer"
+	EOF
+			
 
 	sudo service hhvm restart
 }
