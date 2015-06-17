@@ -150,10 +150,15 @@ function install_f2b() {
 	sudo sed -i "s/maxretry = 3/maxretry = 2/d" "/etc/fail2ban/jail.local"
 	
 }
-function install_mysql() {
-  #sudo apt-get -y install mysql-server
-  sudo apt-get -y install mysql-server-5.6 mysql-common-5.6 mysql-client-5.6
-  sudo apt-get -y install php5-mysql
+
+
+function install_mariadb() {
+	apt-get install software-properties-common 
+	apt-key adv --recv-keys –keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+	add-apt-repository 'http://nyc2.mirrors.digitalocean.com/mariadb/repo/5.5/ubuntu/'
+	sudo apt-get update
+	sudo apt-get install -y mariadb-server mariadb-client
+	sudo /usr/bin/mysql_secure_installation
 }
 
 function install_php() {
