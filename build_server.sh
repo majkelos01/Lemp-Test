@@ -26,10 +26,10 @@ read -n1 -rsp $'---------INSTALLING PHP-FPM--------\n'
 echo           '-----------------------------------\n'
 install_php_fpm
 install_memcached
-echo           '-----------------------------------\n'
-read -n1 -rsp $'---------INSTALLING VARNISH--------\n'
-echo           '-----------------------------------\n'
-install_varnish
+#echo           '-----------------------------------\n'
+#read -n1 -rsp $'---------INSTALLING VARNISH--------\n'
+#echo           '-----------------------------------\n'
+#install_varnish
 echo           '-----------------------------------\n'
 read -n1 -rsp $'----------INSTALLING HHVM----------\n'
 echo           '-----------------------------------\n'
@@ -46,10 +46,10 @@ echo           '-----------------------------------\n'
 configure_fastcgi
 #configure_tmux
 #configure_bash
-echo           '-----------------------------------\n'
-read -n1 -rsp $'---------CONFIGURE VARNISH---------\n'
-echo           '-----------------------------------\n'
-configure_varnish
+#echo           '-----------------------------------\n'
+#read -n1 -rsp $'---------CONFIGURE VARNISH---------\n'
+#echo           '-----------------------------------\n'
+#configure_varnish
 configure_memcached
 
 

@@ -134,7 +134,7 @@ function install_locust() {
 }
 
 function configure_memcached() {
-  sudo sed -i "s/-m 64/-m 128/g" "/etc/memcached.conf"
+  sudo sed -i "s/-m 64/-m 64/g" "/etc/memcached.conf"
 
 }
 
@@ -261,7 +261,8 @@ function install_HHVM() {
 	EOF
 			
 
-	sudo service hhvm restart
+	sudo service hhvm stop
+	sudo service hhvm start
 }
 
 function install_varnish() {
@@ -416,7 +417,7 @@ function start_servers() {
   #sudo service php-fastcgi start
   sudo php5-fpm start
   sudo service memcached start
-  sudo service varnish restart
+  #sudo service varnish restart
   sudo service nginx reload
   sudo service nginx stop
   sudo service nginx start

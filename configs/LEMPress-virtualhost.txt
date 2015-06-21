@@ -2,13 +2,13 @@
 fastcgi_cache_path /etc/nginx/cache/URL levels=1:2 keys_zone=URL:10m inactive=10m max_size=500m;
 
 server {
-listen 127.0.0.1:8080;
+listen 80;
 server_name www.URL;
 rewrite ^(.*) http://URL$1/ permanent;
 }
 
 server {
-  listen   127.0.0.1:8080;
+  listen   8080;
   server_name  URL;
   root   /home/deployer/sites/URL;
   port_in_redirect off;

@@ -6,7 +6,7 @@ server {
 	 	error_log         off;
     	root /home/deployer/sites/phpmyadmin;
 	    index index.php index.html index.htm;
-    	server_name php.nonitojestto.pl;
+    	server_name pma.*;
  
      	location / {
 		try_files $uri $uri/ /index.php;
