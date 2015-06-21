@@ -8,7 +8,7 @@ rewrite ^(.*) http://URL$1/ permanent;
 }
 
 server {
-  listen   8080;
+  listen   80;
   server_name  URL;
   root   /home/deployer/sites/URL;
   port_in_redirect off;
