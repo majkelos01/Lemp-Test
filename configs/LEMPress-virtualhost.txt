@@ -64,7 +64,7 @@ server {
 		fastcgi_no_cache $no_cache;
 
 		#defines the default cache time
-		fastcgi_cache_valid any 10m;
+		fastcgi_cache_valid 200 301 302 304 10m;
 
 		#unsure what the impacts of this variable is
 		fastcgi_max_temp_file_size 3M;
