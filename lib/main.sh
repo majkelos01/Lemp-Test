@@ -258,7 +258,7 @@ function install_HHVM() {
 	sudo tee -a "/etc/default/hhvm" <<EOF
 	RUN_AS_USER="deployer"
 	RUN_AS_GROUP="deployer"
-	EOF
+EOF
 			
 
 	sudo service hhvm restart
