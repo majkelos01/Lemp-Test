@@ -261,16 +261,16 @@ function install_HHVM() {
 	#sudo sed -i 's|#RUN_AS_GROUP="www-data"|RUN_AS_GROUP="deployer"|' "/etc/default/hhvm"
 
 	sudo tee -a "/etc/hhvm/php.ini" <<EOF
-	;max_execution_time = 300
-	;max_input_time = 60
-	memory_limit = 128M
-	post_max_size = 120M
-	upload_max_filesize = 120M
-	EOF
+;max_execution_time = 300
+;max_input_time = 60
+memory_limit = 128M
+post_max_size = 120M
+upload_max_filesize = 120M
+EOF
 
 	sudo tee -a "/etc/default/hhvm" <<EOF
-	RUN_AS_USER="deployer"
-	RUN_AS_GROUP="deployer"
+RUN_AS_USER="deployer"
+RUN_AS_GROUP="deployer"
 EOF
 			
 
