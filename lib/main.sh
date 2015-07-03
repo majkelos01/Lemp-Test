@@ -86,6 +86,12 @@ function compile_nginx() {
 	sudo tar -xzvf ${NPS_VERSION}.tar.gz  # extracts to psol/
 	# Gives us directory /opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
 
+	sudo mkdir /opt/cachepurge
+	cd /opt/cachepurge
+	wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
+	sudo tar -xzf ngx_cache_purge-2.3.tar.gz
+	
+	
 	sudo mkdir /opt/rebuildnginx
 	cd /opt/rebuildnginx
 
@@ -95,7 +101,13 @@ function compile_nginx() {
 	sudo rm -f nginx-1.9.1.tar.gz
 	cd nginx-1.9.1
 	# Attention - Here the version is hard coded
-	sudo ./configure --user=$DEFAULT_USER --group=$DEFAULT_USER --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  --add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta
+	sudo ./configure --user=$DEFAULT_USER --group=$DEFAULT_USER --prefix=/etc/nginx \
+	--sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log \
+	--http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  \
+	--with-http_geoip_module \
+	--with-google_perftools_module \
+	--add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta \
+	--add-module=/opt/cachepurge/ngx_cache_purge-2.3
 
 	sudo make
 	sudo make install
@@ -234,7 +246,7 @@ function install_HHVM() {
 	sudo apt-key add *.key
 	sudo add-apt-repository 'http://dl.hhvm.com/ubuntu'
 	sudo sed -i -e 's|deb-src http://dl.hhvm.com/ubuntu|#deb-src http://dl.hhvm.com/ubuntu|g' /etc/apt/sources.list
-	sudo apt-get update
+	sudo apt-get -y update
 	sudo apt-get -y install hhvm
 	
 	sudo /usr/share/hhvm/install_fastcgi.sh
