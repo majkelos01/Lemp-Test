@@ -88,7 +88,7 @@ function compile_nginx() {
 
 	sudo mkdir /opt/cachepurge
 	cd /opt/cachepurge
-	wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
+	sudo wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
 	sudo tar -xzf ngx_cache_purge-2.3.tar.gz
 	
 	
