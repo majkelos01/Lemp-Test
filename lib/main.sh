@@ -104,7 +104,6 @@ function compile_nginx() {
 	sudo ./configure --user=$DEFAULT_USER --group=$DEFAULT_USER --prefix=/etc/nginx \
 	--sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log \
 	--http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock  \
-	--with-http_geoip_module \
 	--with-google_perftools_module \
 	--add-module=/opt/pagespeed/ngx_pagespeed-release-1.9.32.2-beta \
 	--add-module=/opt/cachepurge/ngx_cache_purge-2.3
