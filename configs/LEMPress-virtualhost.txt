@@ -83,6 +83,13 @@ location @fpm {
   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
   fastcgi_index index.php;
 }
+
+location ~ /purge(/.*) {
+	fastcgi_cache_purge URL "$scheme://$host$request_method$request_uri";
+	return 200;
+	allow 127.0.0.1;
+	deny all;
+	} 
   
 #includes the cache plugins configuration and other custom re-write rules
 include /home/deployer/sites/URL/nginx.conf;
