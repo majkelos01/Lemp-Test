@@ -73,7 +73,9 @@ function compile_nginx() {
 	sudo apt-get -y install build-essential zlib1g-dev libpcre3 libpcre3-dev
 	sudo apt-get -y install linux-kernel-headers
 	sudo apt-get -y install build-essential
-
+	sudo apt-get -y install google-perftools libgoogle-perftools-dev
+	sudo apt-get -y install libgeoip1 libgeoip-dev
+	
 	sudo mkdir /opt/pagespeed
 	cd /opt/pagespeed
 
