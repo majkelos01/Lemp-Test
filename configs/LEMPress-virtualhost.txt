@@ -12,6 +12,7 @@ server {
   server_name  URL;
   root   /home/deployer/sites/URL;
   port_in_redirect off;
+  error_log /var/log/nginx/URL.log warn;
 
   #Cache everything by default - microcache
 	set $no_cache 0;
