@@ -60,5 +60,12 @@ read -n1 -rsp $'--------INSTALLING PHPMYADMIN------\n'
 echo           '-----------------------------------\n'
 install_phpmyadmin
 start_servers
+#install_firewall
+
+
+echo           '-----------------------------------\n'
+read -n1 -rsp $'--------INSTALLING PYDIO     ------\n'
+echo   
+install_pydio
 
 echo -e "\033[32m Your server is set up and ready to start adding Wordpress sites. Just run 'bash add_site.sh' to add 1 or more sites. \033[0m"
