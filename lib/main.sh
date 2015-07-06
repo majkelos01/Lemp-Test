@@ -309,7 +309,110 @@ function install_wordpress() {
   mkdir "$HOME/sites/$URL/logs"
 }
 
+function install_pydio() {
+sudo tee /etc/apt/sources.list <<EOF
+deb http://dl.ajaxplorer.info/repos/apt stable main
+deb-src http://dl.ajaxplorer.info/repos/apt stable main
+EOF
 
+sudo wget -O - http://dl.ajaxplorer.info/repos/charles@ajaxplorer.info.gpg.key | sudo apt-key add -
+
+sudo mkdir -p /home/deployer/sites/pydio
+sudo wget http://internode.dl.sourceforge.net/project/ajaxplorer/pydio/stable-channel/6.0.8/pydio-core-6.0.8.tar.gz
+sudo tar -xzf pydio-core-6.0.8.tar.gz
+sudo rm pydio-core-6.0.8.tar.gz
+
+cd pydio-core-6.0.8
+sudo /bin/cp -rf ./* ..
+sudo rm -rf pydio-core-6.0.8
+
+sudo chown -R deployer:deployer /home/deployer/sites/pydio
+
+
+
+sudo tee /etc/nginx/sites-available/pydio <<EOF
+server {
+        #server_name www.example.com;
+        root /home/deployer/sites/pydio;
+        index index.php;
+        listen 555;
+        keepalive_requests    10;
+        keepalive_timeout     60 60;
+
+        client_max_body_size 15M;
+        client_body_buffer_size 128k;
+
+        rewrite ^/dashboard|^/settings|^/welcome|^/ws- /index.php last;
+        if ( !-e \$request_filename ) {
+                # WebDAV Rewrites
+                rewrite ^/shares /dav.php last;
+                # Sync client
+                rewrite ^/api /rest.php last;
+                # External users 
+                rewrite ^/user ./index.php?get_action=user_access_point last;
+                # Public shares
+                rewrite ^/data/public/([a-zA-Z0-9_-]+)\.php$ /data/public/share.php?hash=$1?;
+        }
+        rewrite ^/data/public/([a-zA-Z0-9_-]+)--([a-z]+)$ /data/public/share.php?hash=$1&lang=$2?;
+        rewrite ^/data/public/([a-zA-Z0-9_-]+)$ /data/public/share.php?hash=$1?;
+
+        # Prevent Clickjacking
+        add_header X-Frame-Options "SAMEORIGIN";
+
+        # Only allow these request methods and do not accept DELETE, SEARCH and other methods
+        if ( \$request_method !~ ^(GET|HEAD|POST|PROPFIND|OPTIONS)$ ) {
+                return 444;
+        }
+
+        location ~* ^/(?:\.|conf|data/(?:files|personal|logs|plugins|tmp|cache)|plugins/editor.zoho/agent/files) {
+                deny all;
+        }
+        # Enables PHP
+        location ~ \.php$ {
+                # for ^/(index|plugins) request_uri should be changed
+                set \$request_url \$request_uri;
+                if ( \$uri ~ ^/(index|plugins) ) {
+                        set \$request_url /;
+                }
+			fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        	include /etc/nginx/fastcgi_params;
+        	fastcgi_pass 127.0.0.1:9001;
+        	fastcgi_index index.php;
+			fastcgi_connect_timeout 60;
+			fastcgi_send_timeout 180;
+			fastcgi_read_timeout 180;
+			fastcgi_buffer_size 256k;
+			fastcgi_buffers 4 256k;
+			fastcgi_busy_buffers_size 256k;
+			fastcgi_temp_file_write_size 256k;
+			fastcgi_intercept_errors on;
+        	fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
+        }
+
+       # Enables Caching
+        location ~* \.(ico|css|js)$ {
+                 expires 7d;
+                add_header Pragma public;
+                add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+        }
+}
+EOF
+
+cd /etc/nginx/sites-enabled
+sudo ln -s ../sites-available/pydio
+
+sudo service php5-fpm restart
+sudo service nginx restart
+
+
+Q1="CREATE DATABASE IF NOT EXISTS pydio;"
+Q2="GRANT ALL ON *.* TO 'pydio'@'localhost' IDENTIFIED BY 'pydio';"
+Q3="FLUSH PRIVILEGES;"
+SQL="${Q1}${Q2}${Q3}"
+mysql -uroot -p -e "$SQL"
+
+echo "Now goto yourdomain.com:555 and fill pydio, pydio, pydio as database, user and password to finish the installation. "
+}
 
 
 # Configure
